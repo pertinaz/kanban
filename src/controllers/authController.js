@@ -2,6 +2,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
+import User from "./src/models/user.js";
 dotenv.config();
 
 export const register = async (req, res) => {
