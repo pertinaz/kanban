@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import { register } from "../controllers/authController.js";
+
 const router = Router();
 
 router.get('/',(req,res)=>{
@@ -8,7 +10,7 @@ router.get('/',(req,res)=>{
 
 router.post("/register-admin"); // admin registration route
 
-router.post("/register"); // user registration route
+router.post("/register",register); // user registration route
 
 router.post("/login"); // login route
 
