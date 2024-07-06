@@ -116,3 +116,48 @@ export const register = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const getProfile = async (req, res) => {
+  const { id } = req.user;
+
+  try {
+    const user = await User.findById(id).select("-password"); // search the existence of the user by password
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ user }); // if coincidence found show the user information as a json object.
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await user.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "Invalid credentials" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(404).json({ message: "Invalid credentials" });
+    }
+
+    const token = createToken(user.id);
+    // create a cookie and storage the JWT refresh token
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    });
+    res.status(200).json({ user, token });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const logout = (req, res) => {
+  res.cookie("token", "", { maxAge: 1 }); // delete the token
+  res.status(200).json({ message: "Logged out successfully" });
+};
