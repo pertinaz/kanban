@@ -3,43 +3,20 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import User from "../models/user.js";
+import {
+  checkExistence,
+  passwordStrength,
+  createToken,
+} from "../utils/userUtils.js";
 dotenv.config();
-
-const createToken = (id) => {
-  return jwt.sign({ id: User.id }, process.env.JWT_SECRET, {
-    expiresIn: "2d",
-  }); // create JWT token
-};
-
-// password should be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character
-const passwordStrength = (password) => {
-  const minLength = 8;
-  const hasUpperCase = /[A-Z]/.test(password);
-  const hasLowerCase = /[a-z]/.test(password);
-  const hasNumbers = /\d/.test(password);
-  const hasSpecialChar = /[!@#$%^&*]/.test(password);
-
-  return (
-    password.length >= minLength &&
-    hasUpperCase &&
-    hasLowerCase &&
-    hasNumbers &&
-    hasSpecialChar
-  );
-};
 
 export const registerAdmin = async (req, res) => {
   const { username, email, password } = req.body;
   try {
-    // verify if the username already exists
-    const existingUser = await User.findOne({ username });
-    if (existingUser)
-      return res.status(400).json({ message: "Username already exists" });
-
-    // verify if the email already exists
-    const existingEmail = await User.findOne({ email });
-    if (existingEmail)
-      return res.status(400).json({ message: "Email already exists" });
+    const conflict = await checkExistence(username, email);
+    if (conflict) {
+      return res.status(400).json(conflict);
+    }
 
     // validate the password (can create a component for this one)
     if (!passwordStrength(password)) {
