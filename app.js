@@ -1,10 +1,13 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import authRouter from "./src/routes/authRoutes.js";
 import { connectDB } from "./src/db.js";
 
+
+import authRouter from "./src/routes/authRoutes.js";
+
 dotenv.config();
+
 const app = express(); // initializes express instance
 
 app.use(express.json()); // enables json files parsing
