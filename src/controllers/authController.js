@@ -12,10 +12,7 @@ dotenv.config();
 export const registerAdmin = async (req, res) => {
   const { username, email, password } = req.body;
   try {
-    const conflict = await checkExistence(username, email);
-    if (conflict) {
-      return res.status(400).json(conflict);
-    } // checking which one is better
+    await checkExistence(email, username); // check if the account exists
 
     // validate the password (can create a component for this one)
     if (!passwordStrength(password)) {
@@ -24,15 +21,8 @@ export const registerAdmin = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10); // has the password -> in the user model:
 
-    const user = new User({
-      username,
-      email,
-      password: hashedPassword,
-      role: "admin",
-    }); // create the new admin
-    await user.save();
-
-    // send the user object and the JWT token in the response
+    // create the new admin user and save it in the JWT token
+    const user = await User.addUser(username, email, password, "admin");
     const token = createToken(user.id);
     res.status(201).json({ user, token });
   } catch (err) {
@@ -44,25 +34,18 @@ export const register = async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    // verify if the username/email already exists
-    await checkExistence(email, username); //this one is cleaner
+    await checkExistence(email, username); //verify if the username/email already exists
 
     // check password
     if (!passwordStrength(password)) {
       return res.satus(400).json({ message: "password is not strong enough" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10); // has the password -> in the user model:
+    const hashedPassword = await bcrypt.hash(password, 10); // has the password -> in the user model
 
-    const user = new User({ username, email, password: hashedPassword }); // create the new user
-    await user.save();
-
-    // create JWT token
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "2d",
-    }); // modify creating a component with tokenCreations and then import it here.
-
-    // send the user object and the JWT token in the response
+    // create the user and save it in the JWT token
+    const user = await User.addUser(username, email, password);
+    const token = createToken(user.id);
     res.status(201).json({ user, token });
   } catch (err) {
     res.status(500).json({ message: err.message });
