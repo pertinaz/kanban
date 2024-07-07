@@ -10,6 +10,7 @@ import {
   deleteColumn,
   getCardsByColumn,
 } from "../controllers/columnsController.js";
+import { verifyToken } from "../middlewares/tokenValidation.js";
 
 const router = express.Router();
 
