@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 // Verify the existence of email addresses or usernames in the database
 export const checkExistence = async (email, username) => {
   // verify if the username already exists
-  const existingUser = await User.findOne({ username });
+  const existingUser = await User.findByname({ username });
   if (existingUser)
     return res.status(400).json({ message: "Username already exists" });
 

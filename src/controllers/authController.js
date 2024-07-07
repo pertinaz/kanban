@@ -1,8 +1,7 @@
-// import a user-creation model
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
-import User from "../models/user.js";
+import User from "../models/user.js"; // import a user-creation model
 import {
   checkExistence,
   passwordStrength,
@@ -16,7 +15,7 @@ export const registerAdmin = async (req, res) => {
     const conflict = await checkExistence(username, email);
     if (conflict) {
       return res.status(400).json(conflict);
-    }
+    } // checking which one is better
 
     // validate the password (can create a component for this one)
     if (!passwordStrength(password)) {
@@ -45,36 +44,12 @@ export const register = async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    // verify if the username already exists
-    const existingUser = await User.findOne({ username });
-    if (existingUser)
-      return res.status(400).json({ message: "Username already exists" });
+    // verify if the username/email already exists
+    await checkExistence(email, username); //this one is cleaner
 
-    // verify if the email already exists
-    const existingEmail = await User.findOne({ email });
-    if (existingEmail)
-      return res.status(400).json({ message: "Email already exists" });
-
-    // password should be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character
-    const passwordStrength = (password) => {
-      const minLength = 8;
-      const hasUpperCase = /[A-Z]/.test(password);
-      const hasLowerCase = /[a-z]/.test(password);
-      const hasNumbers = /\d/.test(password);
-      const hasSpecialChar = /[!@#$%^&*]/.test(password);
-
-      return (
-        password.length >= minLength &&
-        hasUpperCase &&
-        hasLowerCase &&
-        hasNumbers &&
-        hasSpecialChar
-      );
-    };
-
-    // validate the password (can create a component for this one)
+    // check password
     if (!passwordStrength(password)) {
-      return res.status(400).son({ message: "Password is not strong enough" });
+      return res.satus(400).json({ message: "password is not strong enough" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10); // has the password -> in the user model:
