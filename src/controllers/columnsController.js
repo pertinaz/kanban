@@ -24,8 +24,8 @@ export const updateColumn = async (req, res) => {
 
   try {
     const updateColumn = await pool.query(
-      "UPDATE columns SET name = $1 WHERE id = $2 RETURNING *",
-      [name,id]
+      "UPDATE columns SET name = $1 WHERE id = $2 AND user_id = $3 RETURNING *",
+      [name, id, req.user.id]
     );
     res.status(200).json(updateColumn.rows[0]);
   } catch (err) {
@@ -45,11 +45,16 @@ export const deleteColumn = async (req, res) => {
   }
 };
 
-export const getCardsByColumn = async (req,res) => {
-    const { columnId } = req.params;
+export const getCardsByColumn = async (req, res) => {
+  const { columnId } = req.params;
 
-    try{
-        const cards = await pool.query("SELECT * FROM cards WHERE column_id = $1",[columnId]);
-        res.status(200).json(cards.rows);
-    }catch(err){res.status(500).json({ message: err.message });}
+  try {
+    const cards = await pool.query(
+      "SELECT * FROM cards WHERE column_id = $1 AND user_id = $2",
+      [columnId, req.user.id]
+    );
+    res.status(200).json(cards.rows);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
