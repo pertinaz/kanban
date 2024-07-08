@@ -15,3 +15,5 @@ export const verifyToken = (req, res, next) => {
     res.status(500).json({ message: "Token is not valid" });
   }
 };
+
+// node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"

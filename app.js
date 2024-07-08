@@ -10,6 +10,8 @@ import authRouter from "./src/routes/authRoutes.js";
 import dashboardRouter from "./src/routes/kanbanRoutes.js";
 import profileRouter from "./src/routes/profileRoute.js";
 
+import errorHandler from "./src/middlewares/errorHandler.js";
+
 dotenv.config();
 
 const swaggerOptions = {
@@ -35,6 +37,10 @@ app.use(express.json()); // enables json files parsing
 app.use(cookieParser()); // enables cookie parsing
 connectDB(); // connects to database
 
+//middleware for error handling
+app.use(errorHandler);
+
+//rutes
 app.use("/api/auth", authRouter); // use the authorization route for the users
 app.use("/api/kanban", dashboardRouter); // use the authorization route for the dashboard
 app.use("/api/profile", profileRouter); // use the authorization route for the user profile
