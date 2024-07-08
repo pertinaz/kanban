@@ -5,6 +5,7 @@ import { connectDB } from "./src/dbConfig.js";
 
 import authRouter from "./src/routes/authRoutes.js";
 import dashboardRouter from "./src/routes/kanbanRoutes.js";
+import profileRouter from "./src/routes/profileRoute.js";
 
 dotenv.config();
 
@@ -16,4 +17,6 @@ connectDB(); // connects to database
 
 app.use("/api/auth", authRouter); // use the authorization route for the users
 app.use("/api/kanban", dashboardRouter); // use the authorization route for the dashboard
+app.use("/api/profile", profileRouter); // use the authorization route for the user profile
+
 export default app;
