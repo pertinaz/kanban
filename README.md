@@ -8,11 +8,17 @@ _Configuración_
 Clonar el repositorio:
 
 git clone https://github.com/pertinaz/kanban.git
+
 cd kanban-api
+
+
+
 
 Instalar dependencias:
 
 npm install
+
+
 
 _Ejecución_
 
