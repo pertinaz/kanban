@@ -3,8 +3,8 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import { connectDB } from "./src/db.js";
 
-
-import authRouter from "./src/routes/authRoutes.js";
+import authRouter from "../routes/authRoutes.js";
+import dashboardRouter from "../routes/kanbanRoutes.js";
 
 dotenv.config();
 
@@ -15,5 +15,5 @@ app.use(cookieParser()); // enables cookie parsing
 connectDB(); // connects to database
 
 app.use("/api/auth", authRouter); // use the authorization route for the users
-
+app.use("/api/kanban", dashboardRouter); // use the authorization route for the dashboard
 export default app;

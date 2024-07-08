@@ -6,22 +6,27 @@ import {
   login,
   logout,
   getProfile,
+  updateProfile,
 } from "../controllers/authController.js";
 
-const router = Router();
+import { verifyToken } from "../middlewares/tokenValidation.js";
 
-router.get("/", (req, res) => {
+const authRouter = Router();
+
+authRouter.get("/", (req, res) => {
   res.send("Root path");
 });
 
-router.post("/register-admin", registerAdmin); // admin registration route
+authRouter.post("/register-admin", registerAdmin); // admin registration route
 
-router.post("/register", register); // user registration route
+authRouter.post("/register", register); // user registration route
 
-router.post("/login", login); // login route
+authRouter.post("/login", login); // login route
 
-router.post("/logout", logout); // logout route
+authRouter.post("/logout", verifyToken, logout); // logout route
 
-router.get("/profile", getProfile); // profile route
+authRouter.get("/profile", verifyToken, getProfile); // profile route
 
-export default router;
+authRouter.get("/profile", verifyToken, updateProfile); // profile route
+
+export default authRouter;

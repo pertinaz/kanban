@@ -118,7 +118,7 @@ export const login = async (req, res) => {
   }
 };
 
-const logout = (req, res) => {
+export const logout = (req, res) => {
   res.cookie("token", "", { maxAge: 1 }); // delete the token
   res.status(200).json({ message: "Logged out successfully" });
 };

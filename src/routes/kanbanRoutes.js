@@ -12,15 +12,15 @@ import {
 } from "../controllers/columnsController.js";
 import { verifyToken } from "../middlewares/tokenValidation.js";
 
-const router = express.Router();
+const dashboardRouter = express.Router();
 
-router.post("/cards", verifyToken, createCard);
-router.put("/cards/:id", verifyToken, updateCard);
-router.delete("/cards/:id", verifyToken, deleteCard);
+dashboardRouter.post("/cards", verifyToken, createCard);
+dashboardRouter.put("/cards/:id", verifyToken, updateCard);
+dashboardRouter.delete("/cards/:id", verifyToken, deleteCard);
 
-router.post("/columns", verifyToken, createColumn);
-router.put("/columns/:id", verifyToken, updateColumn);
-router.delete("/columns/:id", verifyToken, deleteColumn);
-router.get("/columns/columnId/cards", verifyToken, getCardsByColumn);
+dashboardRouter.post("/columns", verifyToken, createColumn);
+dashboardRouter.put("/columns/:id", verifyToken, updateColumn);
+dashboardRouter.delete("/columns/:id", verifyToken, deleteColumn);
+dashboardRouter.get("/columns/columnId/cards", verifyToken, getCardsByColumn);
 
-export default router;
+export default dashboardRouter;
