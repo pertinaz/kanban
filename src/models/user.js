@@ -1,11 +1,16 @@
 import bcrypt from "bcrypt";
 import { pool } from "../db.js";
 class User {
-  constructor(username, email, password, role = "user") {
+  constructor(id, username, email, password, role = "user") {
+    this.id = id;
     this.username = username;
     this.email = email;
     this.password = password;
     this.role = role;
+  }
+
+  static async comparePassword(passwod, hashedPassword) {
+    return await bcrypt.compare(password, hashedPassword);
   }
 
   static async addUser(username, email, password, role = "user") {
