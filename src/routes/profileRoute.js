@@ -4,13 +4,13 @@ import {
   getUserProfile,
   updateUserProfile,
   deleteUserAccount,
-} from "../controllers/profileController";
-import authMiddleware from "../middlewares/authMiddleware";
-import validateRequest from "../middlewares/validateRequest";
+} from "../controllers/profileController.js";
+import verifyToken from "../middlewares/tokenValidation.js";
+import validateRequest from "../middlewares/validateRequest.js";
 
 const profileRouter = express.Router();
 
-profileRouter.use(authMiddleware);
+profileRouter.use(verifyToken);
 
 profileRouter.get("/profile", getUserProfile);
 profileRouter.put("/profile", validateRequest, updateUserProfile);

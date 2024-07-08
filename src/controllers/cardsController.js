@@ -1,5 +1,5 @@
 import Card from "../models/card.js";
-import { pool } from "../dbConfig.js";
+import { pool } from "../utils/dbConfig.js";
 
 // create new card
 export const createCard = async (req, res) => {

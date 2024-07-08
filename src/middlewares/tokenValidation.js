@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-export const verifyToken = (req, res, next) => {
+const verifyToken = (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -15,5 +15,5 @@ export const verifyToken = (req, res, next) => {
     res.status(500).json({ message: "Token is not valid" });
   }
 };
-
+export default verifyToken;
 // node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"

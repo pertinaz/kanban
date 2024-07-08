@@ -1,7 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import { connectDB } from "./src/dbConfig.js";
+import { connectDB } from "./src/utils/dbConfig.js";
 
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
@@ -29,10 +29,10 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs)); // setup Swagger UI
 
 const app = express(); // initializes express instance
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs)); // setup Swagger UI
 app.use(express.json()); // enables json files parsing
 app.use(cookieParser()); // enables cookie parsing
 connectDB(); // connects to database

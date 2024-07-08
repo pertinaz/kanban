@@ -1,5 +1,5 @@
 import Column from "../models/column.js";
-import { pool } from "../dbConfig.js";
+import { pool } from "../utils/dbConfig.js";
 
 // create column
 export const createColumn = async (req, res) => {

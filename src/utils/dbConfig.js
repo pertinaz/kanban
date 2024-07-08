@@ -6,11 +6,11 @@ dotenv.config();
 
 //config the database connection
 export const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB.PASS,
-  port: process.env.DB_PORT,
+  user: 1, //process.env.DB_USER,
+  host: 2, //process.env.DB_HOST,
+  database: 3, //process.env.DB_NAME,
+  password: 4, //process.env.DB.PASS,
+  port: 5, //process.env.DB_PORT,
 });
 
 //connect to the database

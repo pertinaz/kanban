@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
-import { pool } from "../dbConfig.js";
+import { pool } from "../utils/dbConfig.js";
 import User from "../models/user.js"; // import a user-creation model
 import {
   checkExistence,

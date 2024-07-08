@@ -9,7 +9,7 @@ import {
   updateProfile,
 } from "../controllers/authController.js";
 
-import { verifyToken } from "../middlewares/tokenValidation.js";
+import verifyToken from "../middlewares/tokenValidation.js";
 
 const authRouter = Router();
 

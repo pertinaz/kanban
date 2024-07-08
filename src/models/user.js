@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { pool } from "../dbConfig.js";
+import { pool } from "../utils/dbConfig.js";
 class User {
   constructor(id, username, email, password, role = "user") {
     this.id = id;
