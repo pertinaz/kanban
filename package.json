@@ -5,7 +5,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "npm run build",
+    "build": "echo \"No build necessary for Node.js application\"",
+    "prod": "NODE_ENV=production npm start"
   },
   "repository": {
     "type": "git",
