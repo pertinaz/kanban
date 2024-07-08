@@ -3,11 +3,31 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import { connectDB } from "./src/dbConfig.js";
 
+import swaggerUi from "swagger-ui-express";
+import swaggerJsDoc from "swagger-jsdoc";
+
 import authRouter from "./src/routes/authRoutes.js";
 import dashboardRouter from "./src/routes/kanbanRoutes.js";
 import profileRouter from "./src/routes/profileRoute.js";
 
 dotenv.config();
+
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Kanban API",
+      version: "1.0.0",
+      description: "API for managing a Kanban board",
+    },
+    servers: [{ url: "http://localhost:5432" }],
+  },
+  apis: ["./src/routes/*.js"],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs)); // setup Swagger UI
 
 const app = express(); // initializes express instance
 
